@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "fastify": "^3.19.2",
     "fastify-axios": "^1.2.3",
     "fastify-routes": "^3.0.1",
