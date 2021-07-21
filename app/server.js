@@ -1,25 +1,13 @@
 const fastify = require('fastify')({ logger: true })
 fastify.register(require('fastify-routes'))
-const fs = require('fs');
-
-let rawProfiles = fs.readFileSync('profiles.json');
-let profiles = JSON.parse(rawProfiles);
-
+fastify.register(require('fastify-axios'))
 
 //application routes
-fastify.get('/profiles', (request, reply) => {
-   reply.send(profiles)
+fastify.get('/books', async (request, reply) => {
+   const { data, status } = await fastify.axios.get("https://openlibrary.org/works/OL45883W.json");
+       reply.send(data)
 })
 
-fastify.post('/profile/add', (request, reply) => {
-   const profile = request.body
-   profiles.profiles.push(profile)
-
-   let data = JSON.stringify(profiles);
-   fs.writeFileSync('profiles.json', data);
-
-   reply.send(profiles)
-})
 
 //server
 fastify.listen(80,'0.0.0.0', (error) => {
@@ -29,4 +17,3 @@ fastify.listen(80,'0.0.0.0', (error) => {
        console.log(`Server running, navigate to  http://localhost:80`)
    }
 })
-
