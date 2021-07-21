@@ -1,6 +1,11 @@
 const fastify = require("fastify")({ logger: true });
 fastify.register(require("fastify-routes"));
+
 const mongoose = require("mongoose");
+require("dotenv").config();
+
+const MONGO_USER = process.env.MONGO_USER;
+const MONGO_PASS = process.env.MONGO_PASS;
 
 let ProfileSchema = new mongoose.Schema({
  name: String,
@@ -10,10 +15,13 @@ let ProfileSchema = new mongoose.Schema({
 
 Profile = mongoose.model("Profile", ProfileSchema);
 
-const mongoUrl = "mongodb://mongodb:27017/profiles";
+const mongoUrl = `mongodb://${MONGO_USER}:${MONGO_PASS}@mongodb:27017/profile?authSource=admin`;
 
 try {
- mongoose.connect(mongoUrl);
+ mongoose.connect(mongoUrl, {
+   useNewUrlParser: true,
+   useUnifiedTopology: true,
+ });
 } catch (error) {
  console.error(error);
 }
@@ -54,3 +62,4 @@ fastify.listen(80, "0.0.0.0", (error) => {
 });
 
 
+ 
