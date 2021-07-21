@@ -4,7 +4,7 @@ fastify.register(require('fastify-axios'))
 
 //application routes
 fastify.get('/books', async (request, reply) => {
-   const { data, status } = await fastify.axios.get("https://openlibrary.org/works/OL45883W.json");
+   const { data, status } = await fastify.axios.get("http://127.0.0.1:8300/ping"); // change endpoint to host.docker.internal:8300/ping
        reply.send(data)
 })
 
