@@ -1,19 +1,16 @@
 const fastify = require('fastify')({ logger: true })
 fastify.register(require('fastify-routes'))
-fastify.register(require('fastify-axios'))
-
 //application routes
-fastify.get('/books', async (request, reply) => {
-   const { data, status } = await fastify.axios.get("https://openlibrary.org/works/OL45883W.json");
-       reply.send(data)
+fastify.get('/ping', async (request, reply) => {
+       reply.send('I am a service from systems host')
 })
 
 
 //server
-fastify.listen(80,'0.0.0.0', (error) => {
+fastify.listen(8300,'0.0.0.0', (error) => {
    if (error) {
        console.log(error)
    } else {
-       console.log(`Server running, navigate to  http://localhost:80`)
+       console.log(`Server running, navigate to  http://localhost:8300`)
    }
 })
